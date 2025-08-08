@@ -13,18 +13,16 @@ import argparse
 
 classes = 2
 epochs = 10
-# network = 'maxvit_t'
-# network = input("Enter the model name (e.g., 'maxvit_t', 'convnext_small', 'swinv2_tiny_window8_256'): ").strip()
 
-# CLI Argument Parser
+# CLI Argument Parser (only for network)
 parser = argparse.ArgumentParser(description="Train FPV classification models")
-
 parser.add_argument('--network', type=str, default='maxvit_t',
                     help="Model architecture to use (e.g., 'maxvit_t', 'convnext_small')")
-
-# Parse CLI arguments
 args = parser.parse_args()
+
+# Assign network
 network = args.network
+
 # Device setup
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print("Using device:", device)
@@ -125,6 +123,7 @@ for i in range(0, len(Map)):
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
 """
+
 
 
 
