@@ -34,13 +34,13 @@ criterion = nn.CrossEntropyLoss()
 data = 'FPVData'
 opt = 'AdamW'  # or any string identifier for experiment config
 
-Losses, ValMetrics, ValMetricsALL = train_model(
-    model, device, train_loader, val_loader, criterion, optimizer, network,
-    epochs, data, opt
-)
-
+# Losses, ValMetrics, ValMetricsALL = train_model(
+#     model, device, train_loader, val_loader, criterion, optimizer, network,
+#     epochs, data, opt
+# )
+# SavedModel/FPVDataconvnext_small/AdamW/BestValModel.pth
 # Losses, ValMetrics, ValMetricsALL = train_model(model,'cuda',train_loader,val_loader,criterion,optimizer,network,num_epochs=epochs)
-model.load_state_dict(torch.load(f'./SavedModel/FPVData/{network}/BestValModel.pth'))
+model.load_state_dict(torch.load(f"./SavedModel/{data}{network}/{opt}/BestValModel.pth"))
 
 TestingMetrics, TestingMetricsALL = test_model(model,'cuda',test_loader)
 
@@ -108,6 +108,7 @@ for i in range(0, len(Map)):
         loc = './results/' + network + '/Test/' + Map[i] + '.csv'
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
+
 
 
 
