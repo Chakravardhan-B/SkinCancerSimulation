@@ -4,14 +4,13 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from sklearn.metrics import balanced_accuracy_score, f1_score, precision_score, recall_scoreimport numpy as np
-import torch
+from tqdm import tqdm
 from sklearn.metrics import balanced_accuracy_score, f1_score, precision_score, recall_score
-from tqdm import tqdm, tqdm_gui,tqdm_notebook
 from PerClassEvaluation import PerClassEvaluation
 from ROC_DCA import roc
-import os
-import argparse
+from data_loader import get_loader
+from models import get_model
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data_path', type=str, default='./data')
@@ -185,3 +184,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
