@@ -41,9 +41,9 @@ opt = 'AdamW'  # or any string identifier for experiment config
 # )
 # SavedModel/FPVDataconvnext_small/AdamW/BestValModel.pth
 # Losses, ValMetrics, ValMetricsALL = train_model(model,'cuda',train_loader,val_loader,criterion,optimizer,network,num_epochs=epochs)
-model.load_state_dict(torch.load(f"./SavedModel/{data}{network}/{opt}/BestValModel.pth"))
-
-TestingMetrics, TestingMetricsALL = test_model(model,'cuda',test_loader)
+# model.load_state_dict(torch.load(f"./SavedModel/{data}{network}/{opt}/BestValModel.pth"))
+model.load_state_dict(torch.load("/kaggle/working/SavedModel/FPVDataconvnext_small/AdamW/BestValModel.pth"))
+TestingMetrics, TestingMetricsALL = test_model(model,device,test_loader)
 
 ACC = GetLog(classes)
 BACC = GetLog(classes)
@@ -109,6 +109,7 @@ for i in range(0, len(Map)):
         loc = './results/' + network + '/Test/' + Map[i] + '.csv'
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
+
 
 
 
