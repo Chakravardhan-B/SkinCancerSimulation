@@ -19,8 +19,8 @@ num_params = sum(p.numel() for p in model.parameters())
 print(f"The network has {num_params} parameters.")
 
 # print(model)
+train_loader, val_loader, test_loader = CustomDataLoader('/kaggle/working/FPVData/', batches=32)
 
-train_loader, val_loader, test_loader = CustomDataLoader('./data/HAM10000/', batches=32)
 
 
 
@@ -31,7 +31,8 @@ optimizer = torch.optim.AdamW(params=[{'params':model.features.parameters()}],be
 criterion = nn.CrossEntropyLoss()
 
 Losses, ValMetrics, ValMetricsALL = train_model(model,'cuda',train_loader,val_loader,criterion,optimizer,network,num_epochs=epochs)
-model.load_state_dict(torch.load('./SavedModel/HAM10000/' + network + '/BestValModel.pth'))
+model.load_state_dict(torch.load(f'./SavedModel/FPVData/{network}/BestValModel.pth'))
+
 TestingMetrics, TestingMetricsALL = test_model(model,'cuda',test_loader)
 
 ACC = GetLog(classes)
@@ -96,4 +97,5 @@ for i in range(0, len(Map)):
         if not os.path.exists('./results/' + network + '/Test/'):
             os.makedirs('./results/' + network + '/Test/')
         loc = './results/' + network + '/Test/' + Map[i] + '.csv'
+
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
