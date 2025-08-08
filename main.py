@@ -12,7 +12,7 @@ from testing import test_model
 
 classes = 2
 epochs = 10
-network = 'convnext_small'
+network = 'maxvit_t'
 # Device setup
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print("Using device:", device)
@@ -35,14 +35,14 @@ criterion = nn.CrossEntropyLoss()
 data = 'FPVData'
 opt = 'AdamW'  # or any string identifier for experiment config
 
-# Losses, ValMetrics, ValMetricsALL = train_model(
-#     model, device, train_loader, val_loader, criterion, optimizer, network,
-#     epochs, data, opt
-# )
-# SavedModel/FPVDataconvnext_small/AdamW/BestValModel.pth
+Losses, ValMetrics, ValMetricsALL = train_model(
+    model, device, train_loader, val_loader, criterion, optimizer, network,
+    epochs, data, opt
+)
+
 # Losses, ValMetrics, ValMetricsALL = train_model(model,'cuda',train_loader,val_loader,criterion,optimizer,network,num_epochs=epochs)
-# model.load_state_dict(torch.load(f"./SavedModel/{data}{network}/{opt}/BestValModel.pth"))
-model.load_state_dict(torch.load("/kaggle/working/SavedModel/FPVDataconvnext_small/AdamW/BestValModel.pth"))
+model.load_state_dict(torch.load(f"./SavedModel/{data}{network}/{opt}/BestValModel.pth"))
+# model.load_state_dict(torch.load("/kaggle/working/SavedModel/FPVDataconvnext_small/AdamW/BestValModel.pth"))
 # TestingMetrics, TestingMetricsALL, tpr, fpr, auc = test_model(model,device,test_loader)
 report = test_model(model,device,test_loader)
 print(f"Classification Report")
@@ -113,6 +113,7 @@ for i in range(0, len(Map)):
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
 """
+
 
 
 
