@@ -4,7 +4,8 @@ Author: Yihang Wu
 '''
 import numpy as np
 from sklearn.metrics import roc_curve, auc, det_curve
-from scipy import interp
+import numpy as np
+interp = np.interp
 from sklearn.preprocessing import label_binarize, OneHotEncoder
 import pandas as pd
 
@@ -127,4 +128,5 @@ def calculate_auc(fpr, tpr):
 # # 将DataFrame转换为数组
 # array2 = df2.iloc[:, 0].values
 #
+
 # print(calculate_auc(array2, array1))
