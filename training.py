@@ -67,7 +67,9 @@ def train_model(model, device, train_loader, val_loader, criterion, optimizer,ne
         pre = precision_score(Labels,Preds, average='weighted')
         rec = recall_score(Labels, Preds,average='weighted')
         f1 = f1_score(Labels,Preds,average='weighted')
+        print(Labels.shape, Probs.shape)
         tpr, fpr, auc = roc(Labels, Probs)
         TestingMetricsALL.append([100 * correct / total, bacc*100,pre*100,rec*100,f1*100])
 
     return TotalLoss, TestingMetrics, TestingMetricsALL
+
