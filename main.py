@@ -45,7 +45,7 @@ opt = 'AdamW'  # or any string identifier for experiment config
 model.load_state_dict(torch.load("/kaggle/working/SavedModel/FPVDataconvnext_small/AdamW/BestValModel.pth"))
 # TestingMetrics, TestingMetricsALL, tpr, fpr, auc = test_model(model,device,test_loader)
 report = test_model(model,device,test_loader)
-print(f"*{*50} Classification Report")
+print(f"Classification Report")
 print(report)
 """
 ACC = GetLog(classes)
@@ -113,6 +113,7 @@ for i in range(0, len(Map)):
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
 """
+
 
 
 
