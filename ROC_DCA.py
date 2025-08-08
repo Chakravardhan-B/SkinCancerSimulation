@@ -49,31 +49,54 @@ def calculate_net_benefit_multiclass(y_true, y_proba):
 
     return net_benefits
 
-
 def roc(y_true, pred):
-    classes = []
-    real = set(y_true)
-    for i in real:
-        classes.append(i)
-    y_true = label_binarize(y_true, classes=classes)
-    fpr = dict()
-    tpr = dict()
-    roc_auc = dict()
-    for i in range(len(classes)):
-        fpr[ i ], tpr[ i ], _ = roc_curve(y_true[ :, i ], pred[ :, i ])
-        roc_auc[ i ] = auc(fpr[ i ], tpr[ i ])
+    y_true = np.array(y_true)
+    pred = np.array(pred)
+    
+    # If binary classification (shape [N,] and [N, 2] or [N, 1])
+    if pred.shape[1] == 1:
+        # Single probability given (e.g., for class 1)
+        y_score = pred[:, 0]
+        fpr, tpr, _ = roc_curve(y_true, y_score)
+        roc_auc = auc(fpr, tpr)
+        interp_fpr = np.linspace(0.01, 1, 100)
+        interp_tpr = interp(interp_fpr, fpr, tpr)
+        return interp_tpr, interp_fpr, roc_auc
 
+    elif pred.shape[1] == 2:
+        # Probabilities for both classes, use positive class (class 1)
+        y_score = pred[:, 1]
+        fpr, tpr, _ = roc_curve(y_true, y_score)
+        roc_auc = auc(fpr, tpr)
+        interp_fpr = np.linspace(0.01, 1, 100)
+        interp_tpr = interp(interp_fpr, fpr, tpr)
+        return interp_tpr, interp_fpr, roc_auc
 
-    all_fpr = np.unique(np.concatenate([ fpr[ i ] for i in range(len(classes)) ]))
-    mean_tpr = np.zeros_like(all_fpr)
-    for i in range(len(classes)):
-        mean_tpr += interp(all_fpr, fpr[ i ], tpr[ i ])
-    mean_tpr /= len(classes)
-    roc_auc[ 'macro' ] = auc(all_fpr, mean_tpr)
-    interp_fpr = np.linspace(0.01, 1, 100)
-    interp_tpr = interp(interp_fpr, all_fpr, mean_tpr)
+    else:
+        # Multiclass case
+        classes = np.unique(y_true)
+        y_true_bin = label_binarize(y_true, classes=classes)
+        fpr = dict()
+        tpr = dict()
+        roc_auc = dict()
 
-    return interp_tpr, interp_fpr, roc_auc[ 'macro' ]
+        for i in range(len(classes)):
+            fpr[i], tpr[i], _ = roc_curve(y_true_bin[:, i], pred[:, i])
+            roc_auc[i] = auc(fpr[i], tpr[i])
+
+        # Compute macro-average
+        all_fpr = np.unique(np.concatenate([fpr[i] for i in range(len(classes))]))
+        mean_tpr = np.zeros_like(all_fpr)
+        for i in range(len(classes)):
+            mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+        mean_tpr /= len(classes)
+        roc_auc['macro'] = auc(all_fpr, mean_tpr)
+
+        interp_fpr = np.linspace(0.01, 1, 100)
+        interp_tpr = interp(interp_fpr, all_fpr, mean_tpr)
+
+        return interp_tpr, interp_fpr, roc_auc['macro']
+
 
 
 def det(y_true, pred):
@@ -130,3 +153,4 @@ def calculate_auc(fpr, tpr):
 #
 
 # print(calculate_auc(array2, array1))
+
