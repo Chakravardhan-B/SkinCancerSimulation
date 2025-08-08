@@ -9,21 +9,11 @@ import numpy as np
 from GetLog import GetLog
 import os
 from testing import test_model
-import argparse
 
-
-parser = argparse.ArgumentParser(description="Train FPV classification models")
-parser.add_argument('--network', type=str, default='maxvit_t',
-                    help="Model architecture to use (e.g., 'maxvit_t', 'convnext_small')")
-parser.add_argument('--epochs', type=int, default=10,
-                    help="Number of training epochs")
-parser.add_argument('--num_classes', type=int, default=2,
-                    help="Number of output classes")
-args = parser.parse_args()
 # Assign network
-network = args.network
-classes = args.num_classes
-epochs = args.epochs
+network = "convnext_small"
+classes = 2
+epochs = 10
 
 
 # Device setup
@@ -126,6 +116,7 @@ for i in range(0, len(Map)):
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
 """
+
 
 
 
