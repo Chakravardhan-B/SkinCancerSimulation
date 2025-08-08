@@ -12,6 +12,9 @@ parser.add_argument('--data_path', type=str, default='./data')
 parser.add_argument('--epochs', type=int, default=25)
 parser.add_argument('--num_classes', type=int, default=3)
 args = parser.parse_args()
+# Device setup
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("Using device:", device)
 
 def train_model(model, device, train_loader, val_loader, criterion, optimizer,network, num_epochs, data, opt):
     TotalLoss = []
@@ -72,4 +75,5 @@ def train_model(model, device, train_loader, val_loader, criterion, optimizer,ne
         TestingMetricsALL.append([100 * correct / total, bacc*100,pre*100,rec*100,f1*100])
 
     return TotalLoss, TestingMetrics, TestingMetricsALL
+
 
