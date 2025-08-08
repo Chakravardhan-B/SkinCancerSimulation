@@ -11,7 +11,7 @@ import os
 from testing import test_model
 
 # Assign network
-network = "convnext_small"
+network = "maxvit_t"
 classes = 2
 epochs = 10
 
@@ -116,6 +116,7 @@ for i in range(0, len(Map)):
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
 """
+
 
 
 
