@@ -1,10 +1,11 @@
 import torchvision.models as models
 import torch.nn as nn
 
-print(models.list_models())
+# print(models.list_models())
 # print(models.mvit_v1_base())
 class CustomCNN(nn.Module):
     def __init__(self, num_classes, network=None):
+        print(f"***********Using {network} architecture***********")
         super(CustomCNN, self).__init__()
         if network == 'resnet18':
             self.features = models.resnet18(pretrained=True)
@@ -64,4 +65,5 @@ class CustomCNN(nn.Module):
 
     def forward(self, x):
         x = self.features(x)
+
         return x
