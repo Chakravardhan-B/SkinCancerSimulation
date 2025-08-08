@@ -22,7 +22,9 @@ print(f"The network has {num_params} parameters.")
 train_loader, val_loader, test_loader = CustomDataLoader('/kaggle/working/FPVData/', batches=32)
 
 
-
+# Device setup
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("Using device:", device)
 
 # optimizer = torch.optim.SGD(params=[{'params':model.features.parameters()}], lr=0.01, weight_decay=5e-4,momentum=0.9)
 # optimizer = torch.optim.Adam(params=[{'params':model.features.parameters()}], lr=0.001, weight_decay=0.02, betas=(0.99,0.98))
@@ -33,7 +35,7 @@ data = 'FPVData'
 opt = 'AdamW'  # or any string identifier for experiment config
 
 Losses, ValMetrics, ValMetricsALL = train_model(
-    model, 'cuda', train_loader, val_loader, criterion, optimizer, network,
+    model, device, train_loader, val_loader, criterion, optimizer, network,
     epochs, data, opt
 )
 
@@ -106,5 +108,6 @@ for i in range(0, len(Map)):
         loc = './results/' + network + '/Test/' + Map[i] + '.csv'
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
+
 
 
