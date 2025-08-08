@@ -12,7 +12,9 @@ from testing import test_model
 
 classes = 2
 epochs = 10
-network = 'maxvit_t'
+# network = 'maxvit_t'
+network = input("Enter the model name (e.g., 'maxvit_t', 'convnext_small', 'swinv2_tiny_window8_256'): ").strip()
+
 # Device setup
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print("Using device:", device)
@@ -113,6 +115,7 @@ for i in range(0, len(Map)):
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
 """
+
 
 
 
