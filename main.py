@@ -10,8 +10,8 @@ from GetLog import GetLog
 import os
 from testing import test_model
 
-classes = 7
-epochs = 50
+classes = 2
+epochs = 10
 network = 'convnext_small'
 model = CustomCNN(num_classes=classes, network=network).to('cuda')
 
@@ -99,3 +99,4 @@ for i in range(0, len(Map)):
         loc = './results/' + network + '/Test/' + Map[i] + '.csv'
 
         np.savetxt(loc, np_log, delimiter=',', fmt='%.6f')
+
